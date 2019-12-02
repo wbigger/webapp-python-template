@@ -7,8 +7,13 @@ Una playlist con i tuoi video preferiti? Calcolare la codifica di Huffman?
 
 Qualsiasi cosa tu voglia creare, puoi usare questo template!
 
-- scrivi in questa pagina una breve descrizione di cosa deve fare l'applicazione, possibilmente specificando alcune storie utente
-- scrivi il codice Python che contiene i dati e l'eventuale parte di calcoli
-- scrivi la pagina HTML per visualizzare i dati
+### Passi
+1. fare il fork di questo progetto usando il proprio account
+1. modificare questa pagina, aggiungendo una breve descrizione di cosa deve fare l'applicazione, possibilmente usando le storie utente
+1. modificare il file something.py, in modo che generi dei dati per l'applicazione
+1. scrivere la pagina HTML per visualizzazione dei dati
+1. eseguire il web server `flask` e controllare che tutto funzioni correttamente.
 
-Buon divertimento!
+Il tutorial che abbiamo usato anche in classe lo trovate [qui](https://wbigger.github.io/book-cs-3y/).
+
+Buon divertimento :)
