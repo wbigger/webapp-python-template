@@ -16,4 +16,6 @@ Qualsiasi cosa tu voglia creare, puoi usare questo template!
 
 Il tutorial che abbiamo usato anche in classe lo trovate [qui](https://wbigger.github.io/book-cs-3y/).
 
+**Attenzione**: con questo template **non** avete bisogno di lanciare anche "Go Live", in quanto ora Flask gestisce sia l'html che Python.
+
 Buon divertimento :)
