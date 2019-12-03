@@ -20,4 +20,4 @@ Buon divertimento :)
 
 
 ## Brief
-**Code dismantle** is a webapp that, given an *input file* in *c++*, it will make a list of all the ***functions, variables, templates, classes, structs***, and it will check all the **keywords** used in every function, like: ***for, if, else***, and display a *tree* with all the info. 
+**Code dismantle** is a webapp that, given an *input file* in *Java*, it will make a list of all the ***functions, variables, classes***, and it will check all the **keywords** used in every function, like: ***for, if, else***, and display a *tree* with all the info. 
