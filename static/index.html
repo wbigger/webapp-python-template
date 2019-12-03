@@ -7,6 +7,22 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <ul>
+
+    </ul>
 </body>
+<script src="jquery-3.4.1.min.js"></script>
+<script>
+    $.getJSON("/data").done(makeList);
+
+    function makeList(jsonData) {
+        for (information of jsonData) {
+            let info = "";
+            for (info of information.information) {
+                info.concat(info, info);
+            }
+            let item = '<li>${information.name}</li>';
+        }
+    }
+ </script>
 </html>
