@@ -17,3 +17,7 @@ Qualsiasi cosa tu voglia creare, puoi usare questo template!
 Il tutorial che abbiamo usato anche in classe lo trovate [qui](https://wbigger.github.io/book-cs-3y/).
 
 Buon divertimento :)
+
+
+## Brief
+**Code dismantle** is a webapp that, given an *input file* in *c++*, it will make a list of all the ***functions, variables, templates, classes, structs***, and it will check all the **keywords** used in every function, like: ***for, if, else***, and display a *tree* with all the info. 
