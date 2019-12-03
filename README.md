@@ -19,3 +19,7 @@ Il tutorial che abbiamo usato anche in classe lo trovate [qui](https://wbigger.g
 **Attenzione**: con questo template **non** avete bisogno di lanciare anche "Go Live", in quanto ora Flask gestisce sia l'html che Python.
 
 Buon divertimento :)
+
+# Il mio progetto
+(...qui dovete descrivere il vostro progetto in almeno tre righe...)
+
