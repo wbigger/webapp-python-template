@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script src="jquery-3.4.1.min.js"></script>
+<script>
+    // Prende i dati come JSON dall'URL
+    // quando ha finito di prendere i dati, chiama la funzione "makeList"
+    $.getJSON("http://127.0.0.1:5000/").done(makeList);
+    function makeList(jsonMusic) {
+    for (track of jsonMusic) {
+        let newItem = `<li>${track}</li>`;
+        $("ul").append(newItem);
+    }
+}
+</script>
+
+</html>
