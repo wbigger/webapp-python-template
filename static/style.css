@@ -1,0 +1,13 @@
+* {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+}
+
+.keyword {
+    display: inline;
+    color: red;
+}
+
+li {
+    background-color: aqua;
+}
