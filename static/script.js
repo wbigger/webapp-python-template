@@ -2,11 +2,12 @@ $.getJSON("/data").done(makeList);
 
 function makeList(jsonData) {
     for (element of jsonData) {
-        var info = "hello";
+        var info = '';
         for (information of element.informations) {
-            info.concat(information);
+            info += '<div class="keyword">' + information + '</div>';
         }
-        let item = '<li>HM...</li>';
+        console.log(info);
+        let item = `<li>${info} ${element.name}</li>`;
         $("ul").append(item);
     }
 }
