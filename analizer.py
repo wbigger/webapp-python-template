@@ -7,7 +7,8 @@ informations = [Element("undefined", ["import"])]
 
 for line in input:
     if re.search("^import .*;$", line):
-        informations.append(Element(re.search(" .*;$", line), ["import"]))
+        print(str(re.findall(" .*;$", line)[0]))
+        informations.append(Element(str(re.findall(" .*;$", line)[0]), ["import"]))
 
 def get_elements():
     return informations

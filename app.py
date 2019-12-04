@@ -3,7 +3,6 @@ import json
 
 from analizer import get_elements
 
-
 app = Flask(__name__)
 
 @app.route('/')
