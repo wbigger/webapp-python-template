@@ -1,28 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 </head>
+
 <body>
+    <p>HELLO</p>
     <ul>
 
     </ul>
 </body>
 <script src="jquery-3.4.1.min.js"></script>
-<script>
-    $.getJSON("/data").done(makeList);
+<script type="text/javascript" src="script.js"></script>
 
-    function makeList(jsonData) {
-        for (information of jsonData) {
-            let info = "";
-            for (info of information.information) {
-                info.concat(info, info);
-            }
-            let item = '<li>${information.name}</li>';
-        }
-    }
- </script>
 </html>
