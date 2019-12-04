@@ -6,6 +6,7 @@
 .keyword {
     display: inline;
     color: red;
+    background-color: burlywood;
 }
 
 li {
