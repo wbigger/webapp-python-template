@@ -3,12 +3,17 @@
     font-size: 20px;
 }
 
-.keyword {
+.access {
+    background-color: aqua;
     display: inline;
-    color: red;
-    background-color: burlywood;
 }
 
-li {
-    background-color: aqua;
+.type {
+    background-color: yellowgreen;
+    display: inline;
+}
+
+.identificator {
+    background-color: chartreuse;
+    display: inline;
 }
