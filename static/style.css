@@ -3,13 +3,16 @@
     font-size: 20px;
 }
 
-.access {
-    background-color: aqua;
-    display: inline;
+ul {
+    list-style-type: none;
 }
 
-.type {
-    background-color: yellowgreen;
+li {
+    background-color: antiquewhite;
+}
+
+.keyword {
+    background-color: aqua;
     display: inline;
 }
 

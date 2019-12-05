@@ -1,7 +1,7 @@
 from flask import Flask, Response
 import json
 
-from parser import get_elements
+from checker import get_elements
 
 app = Flask(__name__)
 
