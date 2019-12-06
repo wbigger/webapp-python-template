@@ -1,4 +1,5 @@
 $.getJSON("/data").done(makeList);
+var jsonData;
 
 function makeList(jsonData) {
     for (element of jsonData) {
@@ -8,10 +9,11 @@ function makeList(jsonData) {
 }
 
 function sortList() {
-    $.getJSON("/data").done(makeSortedList);
+    makeSortedList(jsonData);
 }
 
-function makeSortedList(jsonData){
+function makeSortedList(jsonDataIn){
+    jsonData = jsonDataIn
     $("#list").empty()
     let word = $("#text").val()
     for (element of jsonData) {
