@@ -1,6 +1,14 @@
-$.getJSON("/data").done(makeList);
 
-function makeList(jsonData) {
+$(document).ready(getData);
+var jsonData;
+
+function getData() {
+    $.getJSON("/data").done(makeList);
+}
+
+
+function makeList(jsonDataIn) {
+    jsonData = jsonDataIn
     for (element of jsonData) {
         let item = `<li><div class="accessmodifier">${element.access_modifier}</div> <div class="keyword">${element.keyword}</div> <div class="datatype">${element.data_type}</div> <div class="identifier">${element.identifier}</div></li>`
         $("#list").append(item);
@@ -8,7 +16,7 @@ function makeList(jsonData) {
 }
 
 function sortList() {
-    $.getJSON("/data").done(makeSortedList);
+    makeSortedList(jsonData);
 }
 
 function makeSortedList(jsonData){
