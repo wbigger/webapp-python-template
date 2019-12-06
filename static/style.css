@@ -44,7 +44,13 @@ ul {
 }
 
 h1 {
-    font-size: 30px;
+    font-size: 40px;
+    color: darkslategrey;
+    margin: 30px;
+}
+
+h3 {
+    font-size: 25px;
     color: darkslategrey;
     margin: 30px;
 }
