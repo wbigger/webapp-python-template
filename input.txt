@@ -1,27 +1,3 @@
-/* -*- mode: java; c-basic-offset: 2; indent-tabs-mode: nil -*- */
-
-/*
-  Part of the Processing project - http://processing.org
-
-  Copyright (c) 2004-14 Ben Fry and Casey Reas
-  Copyright (c) 2001-04 Massachusetts Institute of Technology
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General
-  Public License along with this library; if not, write to the
-  Free Software Foundation, Inc., 59 Temple Place, Suite 330,
-  Boston, MA  02111-1307  USA
-*/
-
 package processing.core;
 
 import java.awt.*;
@@ -32,204 +8,59 @@ import java.util.Iterator;
 import javax.imageio.*;
 import javax.imageio.metadata.*;
 
-
-/**
-   * ( begin auto-generated from PImage.xml )
-   *
-   * Datatype for storing images. Processing can display <b>.gif</b>,
-   * <b>.jpg</b>, <b>.tga</b>, and <b>.png</b> images. Images may be
-   * displayed in 2D and 3D space. Before an image is used, it must be loaded
-   * with the <b>loadImage()</b> function. The <b>PImage</b> class contains
-   * fields for the <b>width</b> and <b>height</b> of the image, as well as
-   * an array called <b>pixels[]</b> that contains the values for every pixel
-   * in the image. The methods described below allow easy access to the
-   * image's pixels and alpha channel and simplify the process of compositing.<br/>
-   * <br/> using the <b>pixels[]</b> array, be sure to use the
-   * <b>loadPixels()</b> method on the image to make sure that the pixel data
-   * is properly loaded.<br/>
-   * <br/> create a new image, use the <b>createImage()</b> function. Do not
-   * use the syntax <b>new PImage()</b>.
-   *
-   * ( end auto-generated )
-   *
- * @webref image
- * @usage Web &amp; Application
- * @instanceName pimg any object of type PImage
- * @see PApplet#loadImage(String)
- * @see PApplet#imageMode(int)
- * @see PApplet#createImage(int, int, int)
- */
 public class PImage implements PConstants, Cloneable {
 
-  /**
-   * Format for this image, one of RGB, ARGB or ALPHA.
-   * note that RGB images still require 0xff in the high byte
-   * because of how they'll be manipulated by other functions
-   */
   public int format;
 
-  /**
-   * ( begin auto-generated from pixels.xml )
-   *
-   * Array containing the values for all the pixels in the display window.
-   * These values are of the color datatype. This array is the size of the
-   * display window. For example, if the image is 100x100 pixels, there will
-   * be 10000 values and if the window is 200x300 pixels, there will be 60000
-   * values. The <b>index</b> value defines the position of a value within
-   * the array. For example, the statement <b>color b = pixels[230]</b> will
-   * set the variable <b>b</b> to be equal to the value at that location in
-   * the array.<br />
-   * <br />
-   * Before accessing this array, the data must loaded with the
-   * <b>loadPixels()</b> function. After the array data has been modified,
-   * the <b>updatePixels()</b> function must be run to update the changes.
-   * Without <b>loadPixels()</b>, running the code may (or will in future
-   * releases) result in a NullPointerException.
-   *
-   * ( end auto-generated )
-   *
-   * @webref image:pixels
-   * @usage web_application
-   * @brief Array containing the color of every pixel in the image
-   */
   public int[] pixels;
 
-  /** 1 for most images, 2 for hi-dpi/retina */
   public int pixelDensity = 1;
 
-  /** Actual dimensions of pixels array, taking into account the 2x setting. */
   public int pixelWidth;
   public int pixelHeight;
 
-  /**
-   * ( begin auto-generated from PImage_width.xml )
-   *
-   * The width of the image in units of pixels.
-   *
-   * ( end auto-generated )
-   * @webref pimage:field
-   * @usage web_application
-   * @brief     Image width
-   */
   public int width;
 
-  /**
-   * ( begin auto-generated from PImage_height.xml )
-   *
-   * The height of the image in units of pixels.
-   *
-   * ( end auto-generated )
-   * @webref pimage:field
-   * @usage web_application
-   * @brief     Image height
-   */
   public int height;
 
-  /**
-   * Path to parent object that will be used with save().
-   * This prevents users from needing savePath() to use PImage.save().
-   */
   public PApplet parent;
 
-
-  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-
-  /** modified portion of the image */
   protected boolean modified;
   protected int mx1, my1, mx2, my2;
 
-  /** Loaded pixels flag */
   public boolean loaded = false;
 
-  // . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
-
-
-  // private fields
   private int fracU, ifU, fracV, ifV, u1, u2, v1, v2, sX, sY, iw, iw1, ih1;
   private int ul, ll, ur, lr, cUL, cLL, cUR, cLR;
   private int srcXOffset, srcYOffset;
   private int r, g, b, a;
   private int[] srcBuffer;
 
-  // fixed point precision is limited to 15 bits!!
   static final int PRECISIONB = 15;
   static final int PRECISIONF = 1 << PRECISIONB;
   static final int PREC_MAXVAL = PRECISIONF-1;
   static final int PREC_ALPHA_SHIFT = 24-PRECISIONB;
   static final int PREC_RED_SHIFT = 16-PRECISIONB;
 
-  // internal kernel stuff for the gaussian blur filter
   private int blurRadius;
   private int blurKernelSize;
   private int[] blurKernel;
   private int[][] blurMult;
 
-  // colour component bitmasks (moved from PConstants in 2.0b7)
   public static final int ALPHA_MASK = 0xff000000;
   public static final int RED_MASK   = 0x00ff0000;
   public static final int GREEN_MASK = 0x0000ff00;
   public static final int BLUE_MASK  = 0x000000ff;
 
-
-  //////////////////////////////////////////////////////////////
-
-
-  /**
-   * ( begin auto-generated from PImage.xml )
-   *
-   * Datatype for storing images. Processing can display <b>.gif</b>,
-   * <b>.jpg</b>, <b>.tga</b>, and <b>.png</b> images. Images may be
-   * displayed in 2D and 3D space. Before an image is used, it must be loaded
-   * with the <b>loadImage()</b> function. The <b>PImage</b> object contains
-   * fields for the <b>width</b> and <b>height</b> of the image, as well as
-   * an array called <b>pixels[]</b> which contains the values for every
-   * pixel in the image. A group of methods, described below, allow easy
-   * access to the image's pixels and alpha channel and simplify the process
-   * of compositing.
-   * <br/> <br/>
-   * Before using the <b>pixels[]</b> array, be sure to use the
-   * <b>loadPixels()</b> method on the image to make sure that the pixel data
-   * is properly loaded.
-   * <br/> <br/>
-   * To create a new image, use the <b>createImage()</b> function (do not use
-   * <b>new PImage()</b>).
-   * ( end auto-generated )
-   * @nowebref
-   * @usage web_application
-   * @see PApplet#loadImage(String, String)
-   * @see PApplet#imageMode(int)
-   * @see PApplet#createImage(int, int, int)
-   */
   public PImage() {
     format = ARGB;  // default to ARGB images for release 0116
     pixelDensity = 1;
   }
 
-
-  /**
-   * @nowebref
-   * @param width image width
-   * @param height image height
-   */
   public PImage(int width, int height) {
     init(width, height, RGB, 1);
-
-    // toxi: is it maybe better to init the image with max alpha enabled?
-    //for(int i=0; i<pixels.length; i++) pixels[i]=0xffffffff;
-    // fry: i'm opting for the full transparent image, which is how
-    // photoshop works, and our audience oughta be familiar with.
-    // also, i want to avoid having to set all those pixels since
-    // in java it's super slow, and most using this fxn will be
-    // setting all the pixels anyway.
-    // toxi: agreed and same reasons why i left it out ;)
   }
 
-
-  /**
-   * @nowebref
-   * @param format Either RGB, ARGB, ALPHA (grayscale alpha channel)
-   */
   public PImage(int width, int height, int format) {
     init(width, height, format, 1);
   }
@@ -239,22 +70,10 @@ public class PImage implements PConstants, Cloneable {
     init(width, height, format, factor);
   }
 
-
-  /**
-   * Do not remove, see notes in the other variant.
-   */
   public void init(int width, int height, int format) {  // ignore
     init(width, height, format, 1);
   }
 
-
-  /**
-   * Function to be used by subclasses of PImage to init later than
-   * at the constructor, or re-init later when things changes.
-   * Used by Capture and Movie classes (and perhaps others),
-   * because the width/height will not be known when super() is called.
-   * (Leave this public so that other libraries can do the same.)
-   */
   public void init(int width, int height, int format, int factor) {  // ignore
     this.width = width;
     this.height = height;
@@ -266,16 +85,10 @@ public class PImage implements PConstants, Cloneable {
     this.pixels = new int[pixelWidth * pixelHeight];
   }
 
-
-  /**
-   * Check the alpha on an image, using a really primitive loop.
-   */
   protected void checkAlpha() {
     if (pixels == null) return;
 
     for (int i = 0; i < pixels.length; i++) {
-      // since transparency is often at corners, hopefully this
-      // will find a non-transparent pixel quickly and exit
       if ((pixels[i] & 0xff000000) != 0xff000000) {
         format = ARGB;
         break;
@@ -283,19 +96,6 @@ public class PImage implements PConstants, Cloneable {
     }
   }
 
-
-  //////////////////////////////////////////////////////////////
-
-
-  /**
-   * Construct a new PImage from a java.awt.Image. This constructor assumes
-   * that you've done the work of making sure a MediaTracker has been used
-   * to fully download the data and that the img is valid.
-   *
-   * @nowebref
-   * @param img assumes a MediaTracker has been used to fully download
-   * the data and the img is valid
-   */
   public PImage(Image img) {
     format = RGB;
     if (img instanceof BufferedImage) {
@@ -324,9 +124,7 @@ public class PImage implements PConstants, Cloneable {
         }
       }
     }
-    // Implements fall-through if not DataBufferInt above, or not a
-    // known type, or not DataBufferInt for the data itself.
-    if (pixels == null) {  // go the old school Java 1.0 route
+    if (pixels == null) { 
       width = img.getWidth(null);
       height = img.getHeight(null);
       pixels = new int[width * height];
@@ -341,21 +139,11 @@ public class PImage implements PConstants, Cloneable {
     pixelHeight = height;
   }
 
-
-  /**
-   * Use the getNative() method instead, which allows library interfaces to be
-   * written in a cross-platform fashion for desktop, Android, and others.
-   * This is still included for PGraphics objects, which may need the image.
-   */
-  public Image getImage() {  // ignore
+  public Image getImage() {
     return (Image) getNative();
   }
 
-
-  /**
-   * Returns a native BufferedImage from this PImage.
-   */
-  public Object getNative() {  // ignore
+  public Object getNative() {
     loadPixels();
     int type = (format == RGB) ?
       BufferedImage.TYPE_INT_RGB : BufferedImage.TYPE_INT_ARGB;
@@ -365,18 +153,12 @@ public class PImage implements PConstants, Cloneable {
     return image;
   }
 
-
-  //////////////////////////////////////////////////////////////
-
-  // MARKING IMAGE AS MODIFIED / FOR USE w/ GET/SET
-
-
-  public boolean isModified() {  // ignore
+  public boolean isModified() {
     return modified;
   }
 
 
-  public void setModified() {  // ignore
+  public void setModified() {
     modified = true;
     mx1 = 0;
     my1 = 0;
@@ -385,57 +167,31 @@ public class PImage implements PConstants, Cloneable {
   }
 
 
-  public void setModified(boolean m) {  // ignore
+  public void setModified(boolean m) {
     modified = m;
   }
 
 
-  public int getModifiedX1() {  // ignore
+  public int getModifiedX1() {
     return mx1;
   }
 
 
-  public int getModifiedX2() {  // ignore
+  public int getModifiedX2() {
     return mx2;
   }
 
 
-  public int getModifiedY1() {  // ignore
+  public int getModifiedY1() {
     return my1;
   }
 
 
-  public int getModifiedY2() {  // ignore
+  public int getModifiedY2() {
     return my2;
   }
 
-
-  /**
-   * ( begin auto-generated from PImage_loadPixels.xml )
-   *
-   * Loads the pixel data for the image into its <b>pixels[]</b> array. This
-   * function must always be called before reading from or writing to <b>pixels[]</b>.
-   * <br/><br/> renderers may or may not seem to require <b>loadPixels()</b>
-   * or <b>updatePixels()</b>. However, the rule is that any time you want to
-   * manipulate the <b>pixels[]</b> array, you must first call
-   * <b>loadPixels()</b>, and after changes have been made, call
-   * <b>updatePixels()</b>. Even if the renderer may not seem to use this
-   * function in the current Processing release, this will always be subject
-   * to change.
-   *
-   * ( end auto-generated )
-   *
-   * <h3>Advanced</h3>
-   * Call this when you want to mess with the pixels[] array.
-   * <p/>
-   * For subclasses where the pixels[] buffer isn't set by default,
-   * this should copy all data into the pixels[] array
-   *
-   * @webref pimage:pixels
-   * @brief Loads the pixel data for the image into its pixels[] array
-   * @usage web_application
-   */
-  public void loadPixels() {  // ignore
+  public void loadPixels() {
     if (pixels == null || pixels.length != pixelWidth*pixelHeight) {
       pixels = new int[pixelWidth*pixelHeight];
     }
@@ -443,43 +199,11 @@ public class PImage implements PConstants, Cloneable {
   }
 
 
-  public void updatePixels() {  // ignore
+  public void updatePixels() {
     updatePixels(0, 0, pixelWidth, pixelHeight);
   }
 
-
-  /**
-   * ( begin auto-generated from PImage_updatePixels.xml )
-   *
-   * Updates the image with the data in its <b>pixels[]</b> array. Use in
-   * conjunction with <b>loadPixels()</b>. If you're only reading pixels from
-   * the array, there's no need to call <b>updatePixels()</b>.
-   * <br/><br/> renderers may or may not seem to require <b>loadPixels()</b>
-   * or <b>updatePixels()</b>. However, the rule is that any time you want to
-   * manipulate the <b>pixels[]</b> array, you must first call
-   * <b>loadPixels()</b>, and after changes have been made, call
-   * <b>updatePixels()</b>. Even if the renderer may not seem to use this
-   * function in the current Processing release, this will always be subject
-   * to change.
-   * <br/> <br/>
-   * Currently, none of the renderers use the additional parameters to
-   * <b>updatePixels()</b>, however this may be implemented in the future.
-   *
-   * ( end auto-generated )
-   * <h3>Advanced</h3>
-   * Mark the pixels in this region as needing an update.
-   * This is not currently used by any of the renderers, however the api
-   * is structured this way in the hope of being able to use this to
-   * speed things up in the future.
-   * @webref pimage:pixels
-   * @brief Updates the image with the data in its pixels[] array
-   * @usage web_application
-   * @param x x-coordinate of the upper-left corner
-   * @param y y-coordinate of the upper-left corner
-   * @param w width
-   * @param h height
-   */
-  public void updatePixels(int x, int y, int w, int h) {  // ignore
+  public void updatePixels(int x, int y, int w, int h) {
     int x2 = x + w;
     int y2 = y + h;
 
@@ -503,49 +227,11 @@ public class PImage implements PConstants, Cloneable {
     }
   }
 
-
-  //////////////////////////////////////////////////////////////
-
-  // COPYING IMAGE DATA
-
-
-  /**
-   * Duplicate an image, returns new PImage object.
-   * The pixels[] array for the new object will be unique
-   * and recopied from the source image. This is implemented as an
-   * override of Object.clone(). We recommend using get() instead,
-   * because it prevents you from needing to catch the
-   * CloneNotSupportedException, and from doing a cast from the result.
-   */
   @Override
   public Object clone() throws CloneNotSupportedException {  // ignore
     return get();
   }
 
-
-  /**
-   * ( begin auto-generated from PImage_resize.xml )
-   *
-   * Resize the image to a new width and height. To make the image scale
-   * proportionally, use 0 as the value for the <b>wide</b> or <b>high</b>
-   * parameter. For instance, to make the width of an image 150 pixels, and
-   * change the height using the same proportion, use resize(150, 0).<br />
-   * <br />
-   * Even though a PGraphics is technically a PImage, it is not possible to
-   * rescale the image data found in a PGraphics. (It's simply not possible
-   * to do this consistently across renderers: technically infeasible with
-   * P3D, or what would it even do with PDF?) If you want to resize PGraphics
-   * content, first get a copy of its image data using the <b>get()</b>
-   * method, and call <b>resize()</b> on the PImage that is returned.
-   *
-   * ( end auto-generated )
-   * @webref pimage:method
-   * @brief Changes the size of an image to a new width and height
-   * @usage web_application
-   * @param w the resized image width
-   * @param h the resized image height
-   * @see PImage#get(int, int, int, int)
-   */
   public void resize(int w, int h) {  // ignore
     if (w <= 0 && h <= 0) {
       throw new IllegalArgumentException("width or height must be > 0 for resize");
@@ -566,22 +252,14 @@ public class PImage implements PConstants, Cloneable {
     this.pixelWidth = temp.width;
     this.pixelHeight = temp.height;
 
-    // Get the resized pixel array
     this.pixels = temp.pixels;
 
     this.width = pixelWidth / pixelDensity;
     this.height = pixelHeight / pixelDensity;
 
-    // Mark the pixels array as altered
     updatePixels();
   }
 
-
-  // Adapted from getFasterScaledInstance() method from page 111 of
-  // "Filthy Rich Clients" by Chet Haase and Romain Guy
-  // Additional modifications and simplifications have been added,
-  // plus a fix to deal with an infinite loop if images are expanded.
-  // http://code.google.com/p/processing/issues/detail?id=1463
   static private BufferedImage shrinkImage(BufferedImage img,
                                            int targetWidth, int targetHeight) {
     int type = (img.getTransparency() == Transparency.OPAQUE) ?
@@ -593,15 +271,12 @@ public class PImage implements PConstants, Cloneable {
     int prevH = outgoing.getHeight();
     boolean isTranslucent = img.getTransparency() != Transparency.OPAQUE;
 
-    // Use multi-step technique: start with original size, then scale down in
-    // multiple passes with drawImage() until the target size is reached
     int w = img.getWidth();
     int h = img.getHeight();
 
     do {
       if (w > targetWidth) {
         w /= 2;
-        // if this is the last step, do the exact size
         if (w < targetWidth) {
           w = targetWidth;
         }
@@ -617,8 +292,6 @@ public class PImage implements PConstants, Cloneable {
         h = targetHeight;
       }
       if (scratchImage == null || isTranslucent) {
-        // Use a single scratch buffer for all iterations and then copy
-        // to the final, correctly-sized image before returning
         scratchImage = new BufferedImage(w, h, type);
         g2 = scratchImage.createGraphics();
       }
