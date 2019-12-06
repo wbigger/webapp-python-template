@@ -2,11 +2,7 @@ $.getJSON("/data").done(makeList);
 
 function makeList(jsonData) {
     for (element of jsonData) {
-        let keywords = ""
-        for (keyword of element.types) {
-            keywords += `<div class="keyword">${keyword}</div> `
-        }
-        let item = `<li>${keywords} <div class="identificator">${element.identificator}</div></li>`
+        let item = `<li><div class="accessmodifier">${element.access_modifier}</div> <div class="keyword">${element.keyword}</div> <div class="datatype">${element.data_type}</div> <div class="identificator">${element.identifier}</div></li>`
         $("ul").append(item);
     }
 }

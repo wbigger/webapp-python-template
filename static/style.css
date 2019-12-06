@@ -11,8 +11,18 @@ li {
     background-color: antiquewhite;
 }
 
+.accessmodifier {
+    background-color: brown;
+    display: inline;
+}
+
 .keyword {
     background-color: aqua;
+    display: inline;
+}
+
+.datatype {
+    background-color: coral;
     display: inline;
 }
 

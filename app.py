@@ -1,7 +1,7 @@
 from flask import Flask, Response
 import json
 
-from checker import get_elements
+from analizer import elements
 
 app = Flask(__name__)
 
@@ -23,5 +23,5 @@ def style():
 
 @app.route('/data')
 def data():
-    json_string = json.dumps([element.__dict__ for element in get_elements()])
+    json_string = json.dumps([element.__dict__ for element in elements])
     return Response(json_string, mimetype='application/json')
