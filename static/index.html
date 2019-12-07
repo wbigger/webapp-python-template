@@ -30,7 +30,7 @@
     $.getJSON("/data").done(makeList);
     function makeList(jsonMusic) {
         for (track of jsonMusic) {
-            let newItem = `<tr><td>${track.title} - ${track.author} - feat/${track.feat}  -  <a href= ${track.url}> Youtube</a></td></tr>`;
+            let newItem = `<tr><td>${track.title} - ${track.author} - feat/${track.feat}  -  Album:${track.album}  -  <a href= ${track.url}> Youtube</a></td></tr>`;
             $("table").append(newItem);
         }
     }
