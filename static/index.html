@@ -10,13 +10,13 @@
 
 <body>
     <p style="font-style:normal"> <b>Tracks :</b></p>
-    <table border=3 bordercolor=#5f00d3>
+    <table border="3" bordercolor="#5f00d3">
         <tr>
-            <td>
-                <tp>
-
-                </tp>
-            </td>
+            <th>Titolo</th>
+            <th>Autore</th>
+            <th>feat</th>
+            <th>album</th>
+            <th>Link</th>
         </tr>
     </table>
 
@@ -30,7 +30,7 @@
     $.getJSON("/data").done(makeList);
     function makeList(jsonMusic) {
         for (track of jsonMusic) {
-            let newItem = `<tr><td>${track.title} - ${track.author} - feat/${track.feat}  -  Album:${track.album}  -  <a href= ${track.url}> Youtube</a></td></tr>`;
+            let newItem = `<tr><td>${track.title}</td> <td> ${track.author} </td> <td> feat/${track.feat}  </td> <td>  Album:${track.album}  </td> <td>  <a href= ${track.url}> Youtube</a></td></tr>`;
             $("table").append(newItem);
         }
     }
